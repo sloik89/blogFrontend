@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Hero, Posts, Sidebar } from "../components";
 import styled from "styled-components";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 const Home = () => {
+  const { search } = useLocation();
+  console.log(location);
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const { data } = await axios.get(`/api/posts/${search}`);
+      setPosts(data);
+      console.log(data);
+    };
+    fetchPosts();
+  }, [search]);
   return (
     <>
       <Hero />
       <Wrapper>
-        <Posts />
+        <Posts posts={posts} />
         <Sidebar />
       </Wrapper>
     </>

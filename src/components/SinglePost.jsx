@@ -1,16 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import img from "../assets/computer.jpg";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
+import { useParams, Link } from "react-router-dom";
+import axios from "axios";
 const SinglePost = () => {
+  const [post, setPost] = useState({});
+  const { postId } = useParams();
+
+  useEffect(() => {
+    const fetchSinglePost = async () => {
+      const { data } = await axios.get(`/api/posts/${postId}`);
+      console.log(data);
+      setPost(data);
+    };
+    fetchSinglePost();
+  }, [postId]);
   return (
     <Wrapper>
       <div className="single__post">
         <div className="single__post__wrapper">
-          <img src={img} alt="" className="post__img" />
+          {post.image && <img src={post.photo} alt="" className="post__img" />}
           <div className="single__post__title">
-            <h1>Lorem ipsum dolor sit amet.</h1>
+            <h1>{post.title}</h1>
             <div className="single__post__edit">
               <AiFillEdit />
               <BsFillTrashFill />
@@ -18,25 +31,16 @@ const SinglePost = () => {
           </div>
           <div className="single__post__info">
             <span className="single__post__author">
-              Author: <b>Seba</b>
+              Author:
+              <Link to={`/?user=${post.username}`}>
+                <b>{post.username}</b>
+              </Link>
             </span>
-            <span className="single__post__date">1 hour ago</span>
+            <span className="single__post__date">
+              {new Date(post.createdAt).toDateString()}
+            </span>
           </div>
-          <p className="single__post__desc">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            Praesentium, quasi? Aliquam rem dolores pariatur magnam ea placeat
-            commodi! Magni veritatis dolore iusto similique facere pariatur
-            aliquid excepturi at laudantium nam saepe mollitia obcaecati
-            consequatur, rem iste eligendi maxime voluptas cupiditate! Sequi
-            reprehenderit quibusdam reiciendis soluta nobis natus dolores
-            consequuntur quisquam, facilis ab deleniti incidunt perferendis
-            eligendi inventore totam rem maxime. Illum pariatur deleniti
-            doloribus necessitatibus et quidem voluptatibus reiciendis eos
-            impedit officiis, magni vero quis qui libero quia quae nam suscipit
-            voluptate amet sequi. Magnam, non ipsam blanditiis tempora nobis
-            facilis accusamus perspiciatis quidem, recusandae beatae sit sequi
-            fuga consequatur!
-          </p>
+          <p className="single__post__desc">{post.desc}</p>
         </div>
       </div>
     </Wrapper>

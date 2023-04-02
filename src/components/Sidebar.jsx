@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import img from "../assets/ABOU1.jpg";
 import { BsFacebook, BsPinterest, BsSearch } from "react-icons/bs";
 import { AiFillTwitterCircle, AiFillInstagram } from "react-icons/ai";
+import axios from "axios";
+import { Link } from "react-router-dom";
 const Sidebar = () => {
+  const [category, setCategory] = useState([]);
+  useEffect(() => {
+    const fetchCategory = async () => {
+      const { data } = await axios.get("/api/category");
+      setCategory(data);
+    };
+    fetchCategory();
+  }, []);
+  console.log(category);
   return (
     <Wrapper className="sidebar flex-center">
       <div className="sidebar__item">
@@ -17,12 +28,13 @@ const Sidebar = () => {
       <div className="sidebar__item">
         <h3>CATEGORIES</h3>
         <ul className="sidebar__list">
-          <li className="sidebar__list__item">MUSIC</li>
-          <li className="sidebar__list__item">LIFE</li>
-          <li className="sidebar__list__item">STYLE</li>
-          <li className="sidebar__list__item">SPORT</li>
-          <li className="sidebar__list__item">TECH</li>
-          <li className="sidebar__list__item">CINEMA</li>
+          {category.map((item) => {
+            return (
+              <Link key={item._id} to={`/?cat=${item.name}`} className="link">
+                <li className="sidebar__list__item">{item.name}</li>
+              </Link>
+            );
+          })}
         </ul>
       </div>
       <div className="sidebar__item">

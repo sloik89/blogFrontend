@@ -1,22 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import bg from "../assets/login.jpg";
 import { Link } from "react-router-dom";
+import axios from "axios";
 const Register = () => {
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState({ flag: false, msg: "" });
+  const handleForm = async (e) => {
+    e.preventDefault();
+    setError({ ...error, flag: false, msg: "" });
+    if (!email || !username || !password) {
+      console.log("jestem");
+      setError({ ...error, flag: true, msg: "enter data" });
+      return;
+    }
+
+    try {
+      const res = await axios.post("/api/auth/register", {
+        username,
+        email,
+        password,
+      });
+      res.data && window.location.replace("/login");
+    } catch (err) {
+      setError({ ...error, flag: true, msg: "user already exsist" });
+      const { response } = err;
+      console.log(response);
+    }
+  };
   return (
     <Wrapper>
       <div className="login">
         <h3 className="login__title">Register</h3>
-        <form className="login__form">
+        <form className="login__form" onSubmit={handleForm}>
           <label>UserName</label>
-          <input type="text" placeholder="Enter your username..." />
+          <input
+            type="text"
+            placeholder="Enter your username..."
+            onChange={(e) => setUsername(e.target.value)}
+          />
           <label>Email</label>
-          <input type="text" placeholder="Enter your email..." />
+          <input
+            type="text"
+            placeholder="Enter your email..."
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <label>Pasword</label>
-          <input type="text" placeholder="Enter your pasword..." />
+          <input
+            type="text"
+            placeholder="Enter your pasword..."
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <button className="register_btn">Register</button>
         </form>
-        <button className="login_btn">
+        {error.flag && (
+          <p
+            style={{
+              color: "white",
+              fontSize: "20px",
+              letterSpacing: "2px",
+              textTransform: "uppercase",
+            }}
+          >
+            {error.msg}
+          </p>
+        )}
+        <button type="submit" className="login_btn">
           <Link className="link" to="/login">
             Login
           </Link>

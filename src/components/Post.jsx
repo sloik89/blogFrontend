@@ -1,24 +1,26 @@
 import React from "react";
 import styled from "styled-components";
 import img from "../assets/forest.jpg";
-const Post = () => {
+import { Link } from "react-router-dom";
+const Post = ({ post }) => {
   return (
     <Wrapper>
       <div className="post">
-        <img src={img} alt="" className="post__img" />
-
+        {post.photo && <img src={post.photo} alt="" className="post__img" />}
         <div className="post__info flex-center">
           <div className="post__cats">
-            <span className="post__cat">Music</span>
-            <span className="post__cat">Life</span>
+            {post.categories.map((item) => {
+              return <span className="post__cat">{item}</span>;
+            })}
           </div>
-          <h3 className="post__title">Lorem ipsum dolor sit amet co.</h3>
+          <Link className="link" to={`/post/${post._id}`}>
+            <span className="post__title">{post.title}</span>
+          </Link>
           <hr />
-          <span className="post__date">1 hour ago</span>
-          <p className="post__desc">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
-            reiciendis exercitationem ipsum quisquam dolor quae.
-          </p>
+          <span className="post__date">
+            {new Date(post.createdAt).toDateString()}
+          </span>
+          <p className="post__desc">{post.desc}</p>
         </div>
       </div>
     </Wrapper>

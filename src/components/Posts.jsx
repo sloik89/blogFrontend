@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { Post } from "./";
-const Posts = () => {
+const Posts = ({ posts }) => {
   return (
     <Wrapper>
-      <Post />
-      <Post />
-      <Post />
-      <Post />
+      {posts.map((post) => {
+        console.log(post);
+        return <Post key={post._id} post={post} />;
+      })}
     </Wrapper>
   );
 };
