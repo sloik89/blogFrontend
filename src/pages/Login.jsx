@@ -1,20 +1,46 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import bg from "../assets/login.jpg";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../context/context";
 const Login = () => {
+  const { loginForm } = useGlobalContext();
+
+  const userRef = useRef();
+  const pswdRef = useRef();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const user = {
+      username: userRef.current.value,
+      password: pswdRef.current.value,
+    };
+    if (!user.username || !user.password) {
+      console.log("jestem");
+      return;
+    }
+    loginForm(user);
+  };
   return (
     <Wrapper>
       <div className="login">
         <h3 className="login__title">Login</h3>
-        <form className="login__form">
-          <label>Email</label>
-          <input type="text" placeholder="Enter your email..." />
+        <form className="login__form" onSubmit={handleSubmit}>
+          <label>Username</label>
+          <input
+            type="text"
+            placeholder="Enter your username..."
+            ref={userRef}
+          />
           <label>Pasword</label>
-          <input type="text" placeholder="Enter your pasword..." />
+          <input
+            type="text"
+            placeholder="Enter your pasword..."
+            ref={pswdRef}
+          />
           <button className="login_btn">Login</button>
         </form>
-        <button className="register_btn">
+        <button type="submit" className="register_btn">
           <Link className="link" to="/register">
             Register
           </Link>

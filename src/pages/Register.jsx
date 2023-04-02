@@ -3,7 +3,9 @@ import styled from "styled-components";
 import bg from "../assets/login.jpg";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useGlobalContext } from "../context/context";
 const Register = () => {
+  console.log(useGlobalContext());
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
