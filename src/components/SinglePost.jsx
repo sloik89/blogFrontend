@@ -5,10 +5,12 @@ import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import { useGlobalContext } from "../context/context";
 const SinglePost = () => {
+  const { user } = useGlobalContext();
   const [post, setPost] = useState({});
   const { postId } = useParams();
-
+  console.log(user, post);
   useEffect(() => {
     const fetchSinglePost = async () => {
       const { data } = await axios.get(`/api/posts/${postId}`);
@@ -17,6 +19,20 @@ const SinglePost = () => {
     };
     fetchSinglePost();
   }, [postId]);
+  const handleDelete = async () => {
+    console.log("handle delete");
+    try {
+      const data = await axios.delete("/api/posts/" + postId, {
+        data: {
+          username: user.username,
+        },
+      });
+      window.location.replace("/");
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Wrapper>
       <div className="single__post">
@@ -24,10 +40,12 @@ const SinglePost = () => {
           {post.image && <img src={post.photo} alt="" className="post__img" />}
           <div className="single__post__title">
             <h1>{post.title}</h1>
-            <div className="single__post__edit">
-              <AiFillEdit />
-              <BsFillTrashFill />
-            </div>
+            {user?.username === post.username && (
+              <div className="single__post__edit">
+                <AiFillEdit />
+                <BsFillTrashFill onClick={handleDelete} />
+              </div>
+            )}
           </div>
           <div className="single__post__info">
             <span className="single__post__author">

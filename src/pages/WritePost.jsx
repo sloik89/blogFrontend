@@ -1,35 +1,94 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { AiFillPlusCircle } from "react-icons/ai";
 import placeImg from "../assets/forest.jpg";
 import { useGlobalContext } from "../context/context";
 import axios from "axios";
 const WritePost = () => {
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [file, setFile] = useState(null);
+  const [error, setError] = useState(false);
+  const { user } = useGlobalContext();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(false);
+    if (!title || !desc || !file) {
+      console.log("jestem");
+      setError(true);
+      return;
+    }
+    const newPosts = {
+      username: user.username,
+      title,
+      desc,
+    };
+
+    if (file) {
+      const data = new FormData();
+      const filename = file.name;
+      data.append("name", filename);
+      data.append("file", file);
+      newPosts.photo = filename;
+      try {
+        const res = await axios.post("/api/upload", data);
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    try {
+      const { data } = await axios.post("/api/posts", newPosts);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleFile = (e) => {
+    setFile(e.target.files[0]);
+  };
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError(false);
+      }, 2000);
+    }
+  }, [error]);
   return (
     <Wrapper>
-      <img src={placeImg} alt="" />
+      {file && <img src={URL.createObjectURL(file)} alt="" />}
       <div className="write">
-        <form className="write__form">
+        <form className="write__form" onSubmit={handleSubmit}>
           <div className="write__form-group">
             <label htmlFor="fileInput">
               <AiFillPlusCircle className="write__icon" />
             </label>
-            <input type="file" id="fileInput" style={{ display: "none" }} />
+            <input
+              type="file"
+              id="fileInput"
+              style={{ display: "none" }}
+              onChange={handleFile}
+            />
             <input
               type="text"
               placeholder="Title"
               className="write__input"
               autoFocus={true}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
           <div className="write__form-group">
             <textarea
+              onChange={(e) => setDesc(e.target.value)}
               placeholder="Tell your story..."
               type="text"
               className="write__input write__text"
             ></textarea>
           </div>
-          <button className="write__submit">Publish</button>
+          <button type="submit" className="write__submit">
+            Publish
+          </button>
+          {error && <h3>Write correct data</h3>}
         </form>
       </div>
     </Wrapper>
