@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { AiFillPlusCircle } from "react-icons/ai";
 import placeImg from "../assets/forest.jpg";
+import { useGlobalContext } from "../context/context";
+import axios from "axios";
 const WritePost = () => {
   return (
     <Wrapper>
@@ -36,6 +38,7 @@ const WritePost = () => {
 const Wrapper = styled.div`
   width: 80%;
   margin: 0 auto;
+  margin-top: 3rem;
   .write {
     margin: 20px 0;
   }

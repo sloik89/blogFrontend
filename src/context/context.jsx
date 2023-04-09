@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useReducer } from "react";
-import { LOGIN_START, LOGIN_FAILED, LOGIN_SUCCESS } from "./actions";
+import { LOGIN_START, LOGIN_FAILED, LOGIN_SUCCESS, LOGOUT } from "./actions";
 import axios from "axios";
 import reducer from "./reduces";
 const initial_state = {
@@ -10,6 +10,9 @@ const initial_state = {
 export const UserContext = React.createContext();
 export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initial_state);
+  const logout = () => {
+    dispatch({ type: LOGOUT });
+  };
   const loginForm = async (user) => {
     console.log(user);
     dispatch({ type: LOGIN_START, payload: user });
@@ -25,7 +28,7 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(state.user));
   }, [state.user]);
   return (
-    <UserContext.Provider value={{ ...state, loginForm }}>
+    <UserContext.Provider value={{ ...state, loginForm, logout }}>
       {children}
     </UserContext.Provider>
   );

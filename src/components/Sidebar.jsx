@@ -14,7 +14,7 @@ const Sidebar = () => {
     };
     fetchCategory();
   }, []);
-  console.log(category);
+
   return (
     <Wrapper className="sidebar flex-center">
       <div className="sidebar__item">

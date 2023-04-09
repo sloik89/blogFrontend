@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { BsFacebook, BsPinterest, BsSearch } from "react-icons/bs";
 import { AiFillTwitterCircle, AiFillInstagram } from "react-icons/ai";
-
+import { useGlobalContext } from "../context/context";
 const Navbar = () => {
-  const user = false;
+  const { user, logout } = useGlobalContext();
   return (
     <nav className="nav">
       <Wrapper>
@@ -25,8 +25,12 @@ const Navbar = () => {
               </li>
               <li className="top__center__item">About</li>
               <li className="top__center__item">CONTACT</li>
-              <li className="top__center__item">{user && "Logout"}</li>
-              <li className="top__center__item">Write</li>
+              <li onClick={logout} className="top__center__item">
+                {user && "Logout"}
+              </li>
+              <Link className="link" to="write">
+                <li className="top__center__item">Write</li>
+              </Link>
             </ul>
           </div>
           <div className="top__right flex-center">

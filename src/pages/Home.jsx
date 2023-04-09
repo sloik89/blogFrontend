@@ -5,13 +5,12 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 const Home = () => {
   const { search } = useLocation();
-  console.log(location);
+
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     const fetchPosts = async () => {
       const { data } = await axios.get(`/api/posts/${search}`);
       setPosts(data);
-      console.log(data);
     };
     fetchPosts();
   }, [search]);

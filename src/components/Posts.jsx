@@ -5,7 +5,6 @@ const Posts = ({ posts }) => {
   return (
     <Wrapper>
       {posts.map((post) => {
-        console.log(post);
         return <Post key={post._id} post={post} />;
       })}
     </Wrapper>

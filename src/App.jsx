@@ -4,9 +4,11 @@ import { Home } from "./pages";
 import { WritePost, Settings, Login, Register, SinglePostPage } from "./pages/";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import { useGlobalContext } from "./context/context";
 
 function App() {
-  const user = false;
+  const { user } = useGlobalContext();
+  console.log(user);
   return (
     <div className="App">
       <BrowserRouter>
@@ -16,7 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={user ? <Home /> : <Login />} />
           <Route path="/register" element={user ? <Home /> : <Register />} />
-          <Route path="/write" element={user ? <WritePost /> : <Register />} />
+          <Route path="/write" element={user ? <WritePost /> : <Login />} />
           <Route
             path="/settings"
             element={user ? <Settings /> : <Register />}
