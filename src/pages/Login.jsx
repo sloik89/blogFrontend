@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import bg from "../assets/login.jpg";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../context/context";
 const Login = () => {
-  const { loginForm } = useGlobalContext();
+  const { loginForm, msg, error } = useGlobalContext();
 
   const userRef = useRef();
   const pswdRef = useRef();
@@ -21,6 +21,11 @@ const Login = () => {
     }
     loginForm(user);
   };
+  useEffect(() => {
+    if (error) {
+      const interval = set;
+    }
+  }, [error]);
   return (
     <Wrapper>
       <div className="login">
@@ -38,6 +43,7 @@ const Login = () => {
             placeholder="Enter your pasword..."
             ref={pswdRef}
           />
+          {error && <p className="error-msg">{msg}</p>}
           <button className="login_btn">Login</button>
         </form>
         <button type="submit" className="register_btn">
@@ -115,6 +121,15 @@ const Wrapper = styled.div`
     border-radius: 5px;
     width: 190px;
     cursor: pointer;
+  }
+  .error-msg {
+    font-size: 1.2rem;
+    background-color: #e09393;
+    color: white;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 5px 0;
+    margin-top: 1rem;
   }
 `;
 

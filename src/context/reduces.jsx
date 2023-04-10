@@ -5,7 +5,13 @@ const reducer = (state, action) => {
   }
   if (action.type === LOGIN_FAILED) {
     console.log("login falilded");
-    return { ...state, user: null, isFetching: false, error: true };
+    return {
+      ...state,
+      user: null,
+      isFetching: false,
+      error: true,
+      msg: action.payload,
+    };
   }
   if (action.type === LOGIN_SUCCESS) {
     console.log("login succes");

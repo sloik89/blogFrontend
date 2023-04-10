@@ -23,8 +23,13 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
-              <li className="top__center__item">About</li>
-              <li className="top__center__item">CONTACT</li>
+              <Link to="about">
+                <li className="top__center__item">About</li>
+              </Link>
+
+              <li className="top__center__item">
+                <Link to="contact">CONTACT</Link>
+              </li>
               <li onClick={logout} className="top__center__item">
                 {user && "Logout"}
               </li>
@@ -35,7 +40,9 @@ const Navbar = () => {
           </div>
           <div className="top__right flex-center">
             {user ? (
-              <div className="profile-img"></div>
+              <Link to="/settings">
+                <img src={user.profilePic} className="profile-img" />
+              </Link>
             ) : (
               <>
                 <Link className="link" to="login">

@@ -1,9 +1,17 @@
 import { useState } from "react";
 import { Navbar } from "./components";
 import { Home } from "./pages";
-import { WritePost, Settings, Login, Register, SinglePostPage } from "./pages/";
+import {
+  WritePost,
+  Settings,
+  Login,
+  Register,
+  SinglePostPage,
+  About,
+  Contact,
+} from "./pages/";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
+
 import { useGlobalContext } from "./context/context";
 
 function App() {
@@ -17,6 +25,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={user ? <Home /> : <Login />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={user ? <Home /> : <Register />} />
           <Route path="/write" element={user ? <WritePost /> : <Login />} />
           <Route

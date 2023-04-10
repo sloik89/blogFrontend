@@ -6,6 +6,7 @@ const initial_state = {
   user: JSON.parse(localStorage.getItem("user")) || null,
   isFetching: false,
   error: false,
+  msg: "",
 };
 export const UserContext = React.createContext();
 export const UserProvider = ({ children }) => {
@@ -20,8 +21,8 @@ export const UserProvider = ({ children }) => {
       const res = await axios.post("/api/auth/login", user);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
     } catch (err) {
-      console.log(err);
-      dispatch({ type: LOGIN_FAILED });
+      console.log(err.response.data);
+      dispatch({ type: LOGIN_FAILED, payload: err.response.data });
     }
   };
   useEffect(() => {

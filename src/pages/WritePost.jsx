@@ -29,10 +29,11 @@ const WritePost = () => {
       const filename = file.name;
       data.append("name", filename);
       data.append("file", file);
-      newPosts.photo = filename;
+      // newPosts.photo = filename;
       try {
         const res = await axios.post("/api/upload", data);
         console.log(res);
+        newPosts.photo = res.data.url;
       } catch (err) {
         console.log(err);
       }

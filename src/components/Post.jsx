@@ -6,9 +6,7 @@ const Post = ({ post }) => {
   return (
     <Wrapper>
       <div className="post">
-        {post.photo && (
-          <img src={`/uploads/${post.photo}`} alt="" className="post__img" />
-        )}
+        {post.photo && <img src={post.photo} alt="" className="post__img" />}
         <div className="post__info flex-center">
           <div className="post__cats">
             {post.categories.map((item) => {

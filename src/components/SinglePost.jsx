@@ -10,15 +10,36 @@ const SinglePost = () => {
   const { user } = useGlobalContext();
   const [post, setPost] = useState({});
   const { postId } = useParams();
-  console.log(user, post);
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+  const [edit, setEdit] = useState(false);
   useEffect(() => {
     const fetchSinglePost = async () => {
       const { data } = await axios.get(`/api/posts/${postId}`);
       console.log(data);
       setPost(data);
+      setTitle(data.title);
+      setDesc(data.desc);
     };
     fetchSinglePost();
   }, [postId]);
+  const handleUpdate = async () => {
+    console.log(title, desc);
+    console.log("handle update");
+    try {
+      const data = await axios.put("/api/posts/" + postId, {
+        username: user.username,
+        title,
+        desc,
+      });
+
+      console.log(data);
+      setEdit(false);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const handleDelete = async () => {
     console.log("handle delete");
     try {
@@ -33,16 +54,27 @@ const SinglePost = () => {
       console.log(err);
     }
   };
+  console.log(post);
   return (
     <Wrapper>
       <div className="single__post">
         <div className="single__post__wrapper">
-          {post.image && <img src={post.photo} alt="" className="post__img" />}
+          {post.photo && <img src={post.photo} alt="" className="post__img" />}
           <div className="single__post__title">
-            <h1>{post.title}</h1>
+            {edit ? (
+              <input
+                value={title}
+                className="input-edit"
+                type="text"
+                autoFocus
+                onChange={(e) => setTitle(e.target.value)}
+              ></input>
+            ) : (
+              <h1>{post.title}</h1>
+            )}
             {user?.username === post.username && (
               <div className="single__post__edit">
-                <AiFillEdit />
+                <AiFillEdit onClick={() => setEdit(!edit)} />
                 <BsFillTrashFill onClick={handleDelete} />
               </div>
             )}
@@ -58,8 +90,21 @@ const SinglePost = () => {
               {new Date(post.createdAt).toDateString()}
             </span>
           </div>
-          <p className="single__post__desc">{post.desc}</p>
+          {edit ? (
+            <textarea
+              className="textarea-edit"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+            ></textarea>
+          ) : (
+            <p className="single__post__desc">{post.desc}</p>
+          )}
         </div>
+        {edit && (
+          <button onClick={handleUpdate} className="edit-btn btn">
+            Update
+          </button>
+        )}
       </div>
     </Wrapper>
   );
@@ -107,6 +152,31 @@ const Wrapper = styled.div`
   .single__post__desc::first-letter {
     margin-left: 1.5rem;
     font-size: 40px;
+  }
+  .input-edit {
+    width: 100%;
+    margin: 10px;
+    font-size: 20px;
+    text-align: center;
+    padding: 5px 0;
+    border: none;
+    border-bottom: 1px solid black;
+  }
+  .input-edit:focus {
+    outline: none;
+  }
+  .textarea-edit {
+    width: 100%;
+    min-height: 50vh;
+  }
+  .edit-btn {
+    width: 100px;
+    background-color: teal;
+    color: white;
+    padding: 10px;
+    font-size: 1.3rem;
+    border-radius: 5px;
+    cursor: pointer;
   }
 `;
 export default SinglePost;
