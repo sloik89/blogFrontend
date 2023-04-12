@@ -13,6 +13,7 @@ export const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initial_state);
   const logout = () => {
     dispatch({ type: LOGOUT });
+    window.location.replace("/");
   };
   const loginForm = async (user) => {
     console.log(user);

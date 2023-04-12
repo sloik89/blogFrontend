@@ -23,19 +23,25 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
-              <Link to="about">
-                <li className="top__center__item">About</li>
-              </Link>
 
               <li className="top__center__item">
-                <Link to="contact">CONTACT</Link>
+                <Link to="about" className="link">
+                  About
+                </Link>
               </li>
-              <li onClick={logout} className="top__center__item">
-                {user && "Logout"}
+
+              <li className="top__center__item">
+                <Link to="contact" className="link">
+                  CONTACT
+                </Link>
               </li>
+
               <Link className="link" to="write">
                 <li className="top__center__item">Write</li>
               </Link>
+              <li onClick={logout} className="top__center__item">
+                {user && "Logout"}
+              </li>
             </ul>
           </div>
           <div className="top__right flex-center">

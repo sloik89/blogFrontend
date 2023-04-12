@@ -12,8 +12,10 @@ const Posts = ({ posts }) => {
 };
 const Wrapper = styled.div`
   margin: 20px 0;
-  flex: 6;
+  flex: 9;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
+  border: 1px solid black;
 `;
 export default Posts;
