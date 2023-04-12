@@ -41,5 +41,14 @@ const Wrapper = styled.div`
     object-fit: cover;
     margin-top: 50px;
   }
+  @media screen and (max-width: 800px) {
+    margin-top: 1.5rem;
+    .header__titles .header__title_lg {
+      font-size: 1rem;
+    }
+    .header__titles .header__title_sm {
+      font-size: 2rem;
+    }
+  }
 `;
 export default Hero;

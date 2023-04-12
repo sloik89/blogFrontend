@@ -21,6 +21,10 @@ img {
 .link {
   color: inherit;
   text-decoration: none;
+  transition: 0.1s linear;
+}
+.link:hover {
+  color: grey;
 }
 .flex-center {
   display: flex;

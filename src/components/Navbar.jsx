@@ -36,9 +36,11 @@ const Navbar = () => {
                 </Link>
               </li>
 
-              <Link className="link" to="write">
-                <li className="top__center__item">Write</li>
-              </Link>
+              <li className="top__center__item">
+                <Link className="link" to="write">
+                  Write
+                </Link>
+              </li>
               <li onClick={logout} className="top__center__item">
                 {user && "Logout"}
               </li>
@@ -51,10 +53,10 @@ const Navbar = () => {
               </Link>
             ) : (
               <>
-                <Link className="link" to="login">
+                <Link className="link auth" to="login">
                   Login
                 </Link>
-                <Link className="link" to="register">
+                <Link className="link auth" to="register">
                   Register
                 </Link>
               </>
@@ -79,6 +81,11 @@ const Wrapper = styled.div`
       font-size: 1.4rem;
       cursor: pointer;
     }
+    @media screen and (max-width: 800px) {
+       {
+        display: none;
+      }
+    }
   }
   .top__right {
     flex: 3;
@@ -102,6 +109,21 @@ const Wrapper = styled.div`
     height: 40px;
     background-color: #ddd;
     border-radius: 50%;
+  }
+  .auth {
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  @media screen and (max-width: 800px) {
+    .top,
+    .auth {
+      font-size: 0.9rem;
+    }
+    .top__center__list {
+      justify-content: flex-start;
+      padding-left: 1rem;
+    }
   }
 `;
 export default Navbar;
