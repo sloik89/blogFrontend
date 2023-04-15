@@ -8,16 +8,20 @@ const WritePost = () => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
+  const [select, setSelect] = useState("");
   const [error, setError] = useState(false);
   const { user } = useGlobalContext();
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(false);
+    console.log(select);
+
     if (!title || !desc || !file) {
       console.log("jestem");
       setError(true);
       return;
     }
+
     const newPosts = {
       username: user.username,
       title,
@@ -47,6 +51,10 @@ const WritePost = () => {
   };
   const handleFile = (e) => {
     setFile(e.target.files[0]);
+  };
+  const handleSelect = (e) => {
+    setSelect(e.target.value);
+    console.log(select);
   };
   useEffect(() => {
     if (error) {
@@ -85,6 +93,13 @@ const WritePost = () => {
               type="text"
               className="write__input write__text"
             ></textarea>
+            <div className="write__form-group">
+              <select onChange={handleSelect}>
+                <option value="empty">empty</option>
+                <option value="music">music</option>
+                <option value="tech">tech</option>
+              </select>
+            </div>
           </div>
           <button type="submit" className="write__submit">
             Publish

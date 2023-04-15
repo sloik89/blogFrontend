@@ -27,5 +27,10 @@ const Home = () => {
 const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
+
+  @media screen and (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 export default Home;

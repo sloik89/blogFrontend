@@ -20,7 +20,7 @@ const Post = ({ post }) => {
           <span className="post__date">
             {new Date(post.createdAt).toDateString()}
           </span>
-          <p className="post__desc">{post.desc}</p>
+          <p className="post__desc">{post.desc.slice(0, 100)}</p>
         </div>
       </div>
     </Wrapper>

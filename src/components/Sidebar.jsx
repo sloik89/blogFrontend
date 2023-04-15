@@ -63,6 +63,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
   .sidebar__img {
     aspect-ratio: 2/1;
     object-fit: cover;
