@@ -91,6 +91,20 @@ const Wrapper = styled.div`
       text-transform: uppercase;
       cursor: pointer;
     }
+    @media screen and (max-width: 800px) {
+      flex-direction: column;
+      align-items: center;
+      .about__bottom__title {
+        font-size: 2.5rem;
+      }
+      .btn {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+      }
+      .about__bottom__text {
+        font-size: 0.9rem;
+      }
+    }
   }
   .about__bottom__left {
     flex: 1;
